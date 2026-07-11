@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <meta name="theme-color" content="#0b0b0d">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="PROBALAJI AI">
+  <meta name="description" content="PROBALAJI AI – Check your Promax battery warranty status, get AI-powered troubleshooting help, and register service complaints.">
+  <title>PROBALAJI AI – Battery &amp; Inverter Service Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ── Header ─────────────────────────────────────────────── -->
+  <header>
+    <div class="logo-container">
+      <div class="logo-icon">
+        <svg viewBox="0 0 100 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="SBIB Battery Logo">
+          <defs>
+            <linearGradient id="sbibGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#d4a017"/>
+              <stop offset="60%" stop-color="#b8860b"/>
+              <stop offset="100%" stop-color="#8b6914"/>
+            </linearGradient>
+          </defs>
+          <rect x="28" y="2" width="10" height="10" fill="url(#sbibGrad)"/>
+          <rect x="62" y="2" width="10" height="10" fill="url(#sbibGrad)"/>
+          <rect x="6" y="10" width="88" height="12" fill="url(#sbibGrad)"/>
+          <rect x="6" y="20" width="88" height="58" fill="url(#sbibGrad)"/>
+          <text x="50" y="61" text-anchor="middle" font-family="Arial Black,sans-serif"
+                font-size="28" font-weight="900" fill="#0b0b0d" letter-spacing="-1">SBIB</text>
+        </svg>
+      </div>
+      <div class="logo-text">PROBALAJI AI</div>
+      <div class="brand-badge">PROMAX PARTNER</div>
+    </div>
+    <div class="connection-status">
+      <div class="status-dot" id="api-status-dot"></div>
+      <span id="api-status-label">Connecting...</span>
+    </div>
+  </header>
+
+  <!-- ── Main Content ───────────────────────────────────────── -->
+  <main>
+
+    <!-- Hero -->
+    <section class="hero-section">
+      <div class="hero-text">
+        <h1>Intelligent Power Support</h1>
+        <p>Instantly troubleshoot inverter &amp; battery issues with our AI assistant, register service complaints, and check your Promax battery warranty status in seconds.</p>
+
+        <div class="direct-contact-widget">
+          <div class="contact-icon">☎</div>
+          <div>
+            <div class="contact-label">Direct Support Line</div>
+            <div class="contact-name">VIKAS KUMAR GOEL</div>
+            <div class="contact-number">9045651385 &nbsp;/&nbsp; 9837392225</div>
+          </div>
+        </div>
+
+        <div class="hero-stats">
+          <div class="stat-bubble">
+            <div class="stat-val">2,480+</div>
+            <div class="stat-lbl">Queries Solved</div>
+          </div>
+          <div class="stat-bubble">
+            <div class="stat-val">&lt;&nbsp;1s</div>
+            <div class="stat-lbl">Response Time</div>
+          </div>
+          <div class="stat-bubble">
+            <div class="stat-val">99.8%</div>
+            <div class="stat-lbl">Uptime</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Warranty Lookup -->
+      <div class="glass-card warranty-lookup-box">
+        <h2 class="section-title">
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+          </svg>
+          Promax Warranty Verification
+        </h2>
+        <p class="card-subtitle">Enter your battery serial number below to check warranty status and days remaining.</p>
+
+        <div class="warranty-lookup-container">
+          <div class="lookup-bar">
+            <input type="text" id="lookup-serial" class="input-styled" placeholder="Enter Serial No. (e.g. PRX-2026-9874)" autocomplete="off">
+            <button class="btn-primary" id="btn-check-warranty" onclick="lookupWarranty()">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="m21 21-4.35-4.35"/></svg>
+              Check Status
+            </button>
+          </div>
+          <div id="warranty-result" class="warranty-result-card" style="display:none;"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Customer Feature Grid -->
+    <section class="customer-grid">
+
+      <!-- AI Chat -->
+      <div class="glass-card chat-card">
+        <h2 class="section-title">
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path>
+          </svg>
+          PROBALAJI AI Troubleshooting
+        </h2>
+        <div class="chat-container">
+          <div class="chat-messages" id="chat-box">
+            <div class="message agent">
+              Hello! I am your PROBALAJI power assistant. 🔋<br><br>
+              Is your inverter making unusual sounds, failing to charge, or showing warning indicators? Describe your issue or tap a quick topic below.
+            </div>
+          </div>
+          <div class="diagnose-tags">
+            <button class="tag-btn" onclick="sendQuickTag('overload')">🚨 Overload Alarm</button>
+            <button class="tag-btn" onclick="sendQuickTag('charging')">🔌 Not Charging</button>
+            <button class="tag-btn" onclick="sendQuickTag('backup')">📉 Low Backup</button>
+            <button class="tag-btn" onclick="sendQuickTag('dead')">⚡ Dead Inverter</button>
+            <button class="tag-btn" onclick="sendQuickTag('beep')">🔊 Beep Codes</button>
+            <button class="tag-btn" onclick="sendQuickTag('acid')">🧪 Acid/Swelling</button>
+          </div>
+          <div class="chat-input-area">
+            <input type="text" id="chat-input" class="input-styled" placeholder="Ask about beeps, water topping, charging faults..." onkeypress="if(event.key==='Enter') submitChatMessage()">
+            <button class="btn-primary" onclick="submitChatMessage()">Ask AI</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Complaint Registration -->
+      <div class="glass-card complaint-card" style="position:relative;">
+        <!-- Success Overlay -->
+        <div class="success-overlay" id="complaint-success" style="display:none;">
+          <div class="success-icon">✓</div>
+          <h2>Complaint Registered!</h2>
+          <p id="complaint-success-message" class="success-subtext">
+            Our admin panel has received your complaint. We will call you within 1 hour.
+          </p>
+          <div id="complaint-time-details" class="success-time-details"></div>
+          <button class="btn-primary" onclick="resetComplaintForm()">Submit Another Complaint</button>
+        </div>
+
+        <h2 class="section-title">
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+          </svg>
+          Register Service Complaint
+        </h2>
+        <p class="card-subtitle">Experiencing a hardware issue? Submit a ticket and our technician will contact you within 1 hour.</p>
+
+        <form id="complaint-form" onsubmit="registerComplaint(event)">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="comp-name">Full Name</label>
+              <input type="text" id="comp-name" class="input-styled" placeholder="Enter your full name" required>
+            </div>
+            <div class="form-group">
+              <label for="comp-phone">Phone Number</label>
+              <input type="tel" id="comp-phone" class="input-styled" placeholder="Mobile number" required>
+            </div>
+            <div class="form-group full-width">
+              <label for="comp-address">Service Address</label>
+              <input type="text" id="comp-address" class="input-styled" placeholder="Full house / installation address" required>
+            </div>
+            <div class="form-group">
+              <label for="comp-product">Product Model</label>
+              <select id="comp-product" class="input-styled" required>
+                <option value="" disabled selected>Select Product Type</option>
+                <option value="Promax 180AH">Promax 180AH</option>
+                <option value="Promax 200AH">Promax 200AH</option>
+                <option value="Other brand inverter 12V">Other brand inverter 12V</option>
+                <option value="Other brand inverter 24V">Other brand inverter 24V</option>
+                <option value="Other brand battery 150AH">Other brand battery 150AH</option>
+                <option value="Other brand battery 220AH">Other brand battery 220AH</option>
+                <option value="Lithium battery">Lithium battery</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="comp-serial">Serial Number</label>
+              <input type="text" id="comp-serial" class="input-styled" placeholder="e.g. PRX-2026-9874" required>
+            </div>
+            <div class="form-group full-width">
+              <label for="comp-desc">Problem Description</label>
+              <textarea id="comp-desc" class="input-styled" rows="3" placeholder="Describe your symptoms (beeping, won't charge, dead, etc.)" required style="resize:none; font-family:inherit;"></textarea>
+            </div>
+          </div>
+          <button type="submit" id="btn-submit-complaint" class="btn-primary btn-full" style="margin-top:1.5rem;">
+            Submit Complaint Ticket
+          </button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2026 PROBALAJI AI. All rights reserved. | SBIB Battery &amp; Inverter Enterprise Hub</p>
+  </footer>
+
+  <!-- Toast Notification -->
+  <div id="live-toast" class="toast" style="display:none;">
+    <div class="toast-icon">🔔</div>
+    <div>
+      <div class="toast-label">Live Alert</div>
+      <div id="toast-message" class="toast-message">A notification appeared.</div>
+    </div>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="battery_knowledge.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

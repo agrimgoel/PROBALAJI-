@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="theme-color" content="#09090e">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="PROBALAJI AI — Admin Console. Authorised access only.">
+  <title>PROBALAJI AI — Admin Console</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       LOGIN PAGE (shown when no valid token)
+  ══════════════════════════════════════════════════════════════ -->
+  <div id="page-login" class="page active">
+    <div class="login-wrapper">
+      <div class="login-glow"></div>
+      <div class="login-card glass-card">
+        <div class="login-logo">
+          <svg viewBox="0 0 100 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs>
+              <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#d4a017"/>
+                <stop offset="100%" stop-color="#8b6914"/>
+              </linearGradient>
+            </defs>
+            <rect x="28" y="2" width="10" height="10" fill="url(#logoGrad)"/>
+            <rect x="62" y="2" width="10" height="10" fill="url(#logoGrad)"/>
+            <rect x="6" y="10" width="88" height="12" fill="url(#logoGrad)"/>
+            <rect x="6" y="20" width="88" height="58" fill="url(#logoGrad)"/>
+            <text x="50" y="61" text-anchor="middle" font-family="Arial Black,sans-serif"
+                  font-size="28" font-weight="900" fill="#0b0b0d">SBIB</text>
+          </svg>
+        </div>
+
+        <div class="login-header">
+          <div class="lock-icon">🔐</div>
+          <h1>Admin Console</h1>
+          <p>PROBALAJI AI — Authorised Personnel Only</p>
+        </div>
+
+        <form id="login-form" onsubmit="handleLogin(event)">
+          <div class="form-group">
+            <label for="login-username">Username</label>
+            <input type="text" id="login-username" class="input-styled" placeholder="Enter admin username"
+                   autocomplete="username" spellcheck="false" required>
+          </div>
+          <div class="form-group">
+            <label for="login-password">Password</label>
+            <div class="password-wrapper">
+              <input type="password" id="login-password" class="input-styled" placeholder="••••••••••••"
+                     autocomplete="current-password" required>
+              <button type="button" class="password-toggle" id="btn-toggle-pwd"
+                      onclick="togglePasswordVisibility()" title="Show/hide password">
+                <svg id="eye-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div id="login-error" class="error-message" style="display:none;"></div>
+
+          <button type="submit" id="btn-login" class="btn-primary btn-full">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
+            </svg>
+            Authenticate
+          </button>
+        </form>
+
+        <div class="login-footer">
+          <a href="../customer-site/index.html">← Customer Site</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       DASHBOARD (shown after successful login)
+  ══════════════════════════════════════════════════════════════ -->
+  <div id="page-dashboard" class="page" style="display:none;">
+
+    <!-- Header -->
+    <header>
+      <div class="logo-container">
+        <div class="logo-icon-sm">
+          <svg viewBox="0 0 100 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="hdrGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#d4a017"/>
+                <stop offset="100%" stop-color="#8b6914"/>
+              </linearGradient>
+            </defs>
+            <rect x="6" y="10" width="88" height="12" fill="url(#hdrGrad)"/>
+            <rect x="6" y="20" width="88" height="58" fill="url(#hdrGrad)"/>
+          </svg>
+        </div>
+        <div class="logo-text">PROBALAJI AI</div>
+        <div class="admin-badge">ADMIN CONSOLE</div>
+      </div>
+
+      <div class="header-actions">
+        <div class="admin-user-chip" id="admin-username-chip">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+          </svg>
+          <span id="current-username">admin</span>
+        </div>
+        <button class="btn-danger-sm" id="btn-logout" onclick="logout()">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+          </svg>
+          Logout
+        </button>
+      </div>
+    </header>
+
+    <main>
+
+      <!-- Metrics Row -->
+      <div class="metrics-row">
+        <div class="metric-card">
+          <div class="metric-icon blue">🎫</div>
+          <div class="metric-info">
+            <div class="metric-value" id="m-total-complaints">—</div>
+            <div class="metric-label">Total Tickets</div>
+          </div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-icon yellow">⏳</div>
+          <div class="metric-info">
+            <div class="metric-value" id="m-pending">—</div>
+            <div class="metric-label">Pending</div>
+          </div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-icon purple">⚙️</div>
+          <div class="metric-info">
+            <div class="metric-value" id="m-in-progress">—</div>
+            <div class="metric-label">In Progress</div>
+          </div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-icon green">🛡️</div>
+          <div class="metric-info">
+            <div class="metric-value" id="m-batteries">—</div>
+            <div class="metric-label">Batteries Registered</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sub-nav tabs -->
+      <div class="subnav">
+        <button class="subnav-btn active" id="tab-complaints" onclick="switchTab('complaints')">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2"/>
+          </svg>
+          Service Tickets
+        </button>
+        <button class="subnav-btn" id="tab-batteries" onclick="switchTab('batteries')">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+          </svg>
+          Warranty Registry
+        </button>
+      </div>
+
+      <!-- ── PANEL: Complaints ──────────────────────────────── -->
+      <div id="panel-complaints" class="tab-panel active">
+        <div class="glass-card table-card">
+          <div class="table-toolbar">
+            <h2 class="card-title">Service Tickets</h2>
+            <div class="toolbar-controls">
+              <select id="filter-status" class="input-styled input-sm" onchange="renderComplaints()">
+                <option value="all">All Statuses</option>
+                <option value="pending">Pending</option>
+                <option value="in-progress">In Progress</option>
+                <option value="resolved">Resolved</option>
+              </select>
+              <input type="text" id="search-complaints" class="input-styled input-sm" placeholder="Search name / serial..." oninput="renderComplaints()">
+              <button class="btn-ghost" onclick="exportComplaintsToCSV()" title="Export CSV">
+                📥 Export CSV
+              </button>
+              <button class="btn-ghost" onclick="loadDashboardData()" title="Refresh">
+                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                </svg>
+                Refresh
+              </button>
+            </div>
+          </div>
+          <div class="table-container">
+            <table id="complaints-table">
+              <thead>
+                <tr>
+                  <th>Ticket ID</th>
+                  <th>Customer</th>
+                  <th>Product &amp; Serial</th>
+                  <th>Status</th>
+                  <th>Registered</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="complaints-tbody">
+                <tr><td colspan="6" class="loading-row">Loading...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── PANEL: Batteries/Warranty Registry ─────────────── -->
+      <div id="panel-batteries" class="tab-panel" style="display:none;">
+        <div class="admin-grid">
+
+          <!-- Add Battery Form -->
+          <div class="glass-card">
+            <div class="success-overlay" id="battery-success-overlay" style="display:none;">
+              <div class="success-icon">✓</div>
+              <h3>Battery Registered!</h3>
+              <p>Warranty record saved successfully.</p>
+              <button class="btn-primary" onclick="resetBatteryForm()">Register Another</button>
+            </div>
+
+            <h2 class="card-title" style="margin-bottom:1.25rem;">Register Warranty</h2>
+
+            <form id="battery-form" onsubmit="submitBattery(event)">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label for="b-name">Customer Name</label>
+                  <input type="text" id="b-name" class="input-styled" placeholder="Full name" required>
+                </div>
+                <div class="form-group">
+                  <label for="b-phone">Phone Number</label>
+                  <input type="tel" id="b-phone" class="input-styled" placeholder="Mobile number" required>
+                </div>
+                <div class="form-group full-width">
+                  <label for="b-address">Installation Address</label>
+                  <input type="text" id="b-address" class="input-styled" placeholder="Full address" required>
+                </div>
+                <div class="form-group full-width">
+                  <label>Battery Type</label>
+                  <div class="type-toggle-row">
+                    <button type="button" id="btn-lithium" class="type-btn" onclick="selectBatteryType('lithium')">⚡ Lithium</button>
+                    <button type="button" id="btn-nonlithium" class="type-btn" onclick="selectBatteryType('nonlithium')">🔋 Non-Lithium</button>
+                  </div>
+                </div>
+                <div class="form-group" id="brand-group">
+                  <label for="b-brand">Brand</label>
+                  <input type="text" id="b-brand" class="input-styled" placeholder="e.g. Luminous, Exide, Amaron" oninput="composeBatteryProduct()">
+                </div>
+                <div class="form-group">
+                  <label for="b-power" id="b-power-label">Battery Power</label>
+                  <input type="text" id="b-power" class="input-styled" placeholder="e.g. 150Ah, 220Ah" oninput="composeBatteryProduct()">
+                </div>
+                <input type="hidden" id="b-product">
+                <div class="form-group">
+                  <label for="b-serial">Serial Number</label>
+                  <input type="text" id="b-serial" class="input-styled" placeholder="e.g. PRX-2026-XXXX" required>
+                </div>
+                <div class="form-group">
+                  <label for="b-date">Purchase Date</label>
+                  <input type="date" id="b-date" class="input-styled" required>
+                </div>
+                <div class="form-group full-width">
+                  <label for="b-duration">Warranty Duration</label>
+                  <select id="b-duration" class="input-styled" required>
+                    <option value="12">12 Months (1 Year)</option>
+                    <option value="24" selected>24 Months (2 Years)</option>
+                    <option value="36">36 Months (3 Years)</option>
+                    <option value="48">48 Months (4 Years)</option>
+                    <option value="60">60 Months (5 Years)</option>
+                    <option value="72">72 Months (6 Years)</option>
+                  </select>
+                </div>
+                <div class="form-group full-width checkbox-row">
+                  <input type="checkbox" id="b-card-given">
+                  <label for="b-card-given" style="text-transform:none; font-size:0.9rem; color:var(--text-primary); cursor:pointer;">
+                    📜 Physical Warranty Card Handed Over to Customer
+                  </label>
+                </div>
+              </div>
+              <button type="submit" id="btn-save-battery" class="btn-primary btn-full" style="margin-top:1.5rem;">
+                Activate Warranty
+              </button>
+            </form>
+          </div>
+
+          <!-- Battery Registry Table -->
+          <div class="glass-card table-card">
+            <div class="table-toolbar">
+              <h2 class="card-title">Active Registrations</h2>
+              <div class="toolbar-controls">
+                <input type="text" id="search-batteries" class="input-styled input-sm" placeholder="Search name / serial..." oninput="renderBatteries()">
+                <button class="btn-ghost" onclick="exportBatteriesToCSV()" title="Export CSV">
+                  📥 Export CSV
+                </button>
+              </div>
+            </div>
+            <div class="table-container">
+              <table id="batteries-table">
+                <thead>
+                  <tr>
+                    <th>Customer</th>
+                    <th>Phone</th>
+                    <th>Product</th>
+                    <th>Serial No.</th>
+                    <th>Purchase Date</th>
+                    <th>Warranty</th>
+                    <th>Status</th>
+                    <th>Card</th>
+                  </tr>
+                </thead>
+                <tbody id="batteries-tbody">
+                  <tr><td colspan="8" class="loading-row">Loading...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </main>
+
+    <!-- Toast -->
+    <div id="live-toast" class="toast" style="display:none;">
+      <div class="toast-icon">🔔</div>
+      <div>
+        <div class="toast-label">Admin Alert</div>
+        <div id="toast-message" class="toast-message">—</div>
+      </div>
+    </div>
+
+    <!-- Confirm Modal -->
+    <div id="confirm-modal" class="modal-overlay" style="display:none;">
+      <div class="modal-card glass-card">
+        <div class="modal-icon">⚠</div>
+        <h3 id="modal-title">Confirm Action</h3>
+        <p id="modal-message">Are you sure?</p>
+        <div class="modal-buttons">
+          <button class="btn-ghost" id="modal-cancel" onclick="closeModal()">Cancel</button>
+          <button class="btn-primary" id="modal-confirm">Confirm</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /page-dashboard -->
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
